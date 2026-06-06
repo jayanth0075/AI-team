@@ -68,7 +68,7 @@ def upgrade() -> None:
         sa.Column("keywords", sa.Text(), nullable=True),
         sa.Column("certifications_available", postgresql.JSON(), default=list),
         sa.Column("certifications_required", postgresql.JSON(), default=list),
-        sa.Column("embedding_vector", postgresql.ARRAY(sa.Float()), nullable=True),
+        sa.Column("embedding_vector", postgresql.JSON(), nullable=True),
         sa.Column("created_at", sa.DateTime(), server_default=sa.func.now()),
         sa.Column("updated_at", sa.DateTime(), server_default=sa.func.now(), onupdate=sa.func.now()),
     )

@@ -42,8 +42,8 @@ class TechnologyProfile(Base):
     certifications_available = Column(JSON, default=list)
     certifications_required = Column(JSON, default=list)
 
-    # Vector embedding (pgvector)
-    embedding_vector = Column("embedding_vector", type_="vector(768)", nullable=True)
+    # Vector embedding (JSON array of floats)
+    embedding_vector = Column("embedding_vector", JSON, nullable=True)
 
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
