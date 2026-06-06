@@ -86,10 +86,10 @@ API runs at `http://localhost:8000`. Docs at `http://localhost:8000/docs`.
 
 | Provider | Model | Speed | Notes |
 |---|---|---|---|
-| **OpenAI** | **gpt-4.1** | **1.1s** | **Recommended — fastest, most reliable JSON output** |
-| OpenAI | gpt-4o-mini | 1.2s | Cheaper, good quality |
-| Gemini | gemini-2.5-flash | 4.2s | Alternative option |
-| Gemini | gemini-3.1-flash-lite | 0.8s | Fastest overall, lower quality |
+| **OpenAI** | **gpt-5.5** | **16s** | **Recommended — most detailed, passes all tests** |
+| OpenAI | gpt-4.1 | 1.0s | Fast alternative, good quality |
+| Gemini | gemini-3.5-flash | 6.2s | Alternative option, faster |
+| Gemini | gemini-2.5-pro | 14.8s | Slower but detailed |
 
 Set `LLM_PROVIDER=openai` or `LLM_PROVIDER=gemini` in `.env`.
 
