@@ -76,22 +76,32 @@ class OpenAIProvider(LLMProvider):
         self.model = settings.openai_model or "gpt-4o"
 
     async def generate_text(self, prompt: str, temperature: float = 0.7, max_tokens: int = 2000) -> str:
-        response = await self.client.chat.completions.create(
-            model=self.model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=temperature,
-            max_tokens=max_tokens,
-        )
+        # Use max_completion_tokens for newer models (gpt-5.5, gpt-4o+)
+        param = "max_completion_tokens" if self.model.startswith(("gpt-5", "gpt-4o")) else "max_tokens"
+        kwargs = {
+            "model": self.model,
+            "messages": [{"role": "user", "content": prompt}],
+            param: max_tokens,
+        }
+        # Only add temperature if model supports it (not all models do)
+        if not self.model.startswith("gpt-5"):
+            kwargs["temperature"] = temperature
+        response = await self.client.chat.completions.create(**kwargs)
         return response.choices[0].message.content or ""
 
     async def generate_json(self, prompt: str, temperature: float = 0.3, max_tokens: int = 2000) -> Dict[str, Any]:
-        response = await self.client.chat.completions.create(
-            model=self.model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=temperature,
-            max_tokens=max_tokens,
-            response_format={"type": "json_object"},
-        )
+        # Use max_completion_tokens for newer models (gpt-5.5, gpt-4o+)
+        param = "max_completion_tokens" if self.model.startswith(("gpt-5", "gpt-4o")) else "max_tokens"
+        kwargs = {
+            "model": self.model,
+            "messages": [{"role": "user", "content": prompt}],
+            param: max_tokens,
+            "response_format": {"type": "json_object"},
+        }
+        # Only add temperature if model supports it (not all models do)
+        if not self.model.startswith("gpt-5"):
+            kwargs["temperature"] = temperature
+        response = await self.client.chat.completions.create(**kwargs)
         text = response.choices[0].message.content or "{}"
         return json.loads(text)
 
